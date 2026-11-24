@@ -1,0 +1,16 @@
+{
+  "stage": "ready",
+  "updated_at_unix": 1794344227.869349,
+  "epochs": 100,
+  "model": "C:\\Users\\ind.ivi.ddd\\OneDrive\\Desktop\\RoboCup2026\\Lorax-AI\\models\\lorax\\voice.pth",
+  "index": "C:\\Users\\ind.ivi.ddd\\OneDrive\\Desktop\\RoboCup2026\\Lorax-AI\\models\\lorax\\voice.index",
+  "preview": "C:\\Users\\ind.ivi.ddd\\OneDrive\\Desktop\\RoboCup2026\\Lorax-AI\\outputs\\3736326df9434a309d165469588082e1.wav",
+  "preview_seconds": 7.18,
+  "conversion": {
+    "engine": "RVC",
+    "f0_method": "rmvpe",
+    "pitch_shift": 0,
+    "index_rate": 0.75,
+    "preserves_timing": true
+  }
+}

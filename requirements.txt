@@ -1,0 +1,15 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+torch>=2.5.1,<2.6
+torchaudio>=2.5.1,<2.6
+soundfile>=0.13,<1
+numpy>=1.26.4,<2
+av>=14,<16
+librosa>=0.10.2,<0.11
+faiss-cpu>=1.9,<2
+praat-parselmouth>=0.4.5,<1
+scipy>=1.13,<2
+transformers>=4.49,<4.50
+ffmpeg-python>=0.2,<1
+pydantic>=2.0.0

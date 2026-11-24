@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lorax AI Voice Studio — RVC</title>
+  <meta name="description"
+    content="Convert your recorded voice into The Lorax or Pipsqueak with RVC and RMVPE, keeping your timing and intonation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+
+<body>
+
+  <!-- Cinematic Background with Truffula Forest Panorama -->
+  <div class="forest-bg">
+    <div class="ambient-glow"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="floating-puffs">
+      <span class="puff p1"></span>
+      <span class="puff p2"></span>
+      <span class="puff p3"></span>
+      <span class="puff p4"></span>
+      <span class="puff p5"></span>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-logo-area">
+        <div class="mustache-icon" title="I speak for the trees!">
+          <div class="mustache-left"></div>
+          <div class="mustache-right"></div>
+        </div>
+        <div>
+          <h1 class="app-title">The Lorax <span>AI Voice Studio</span></h1>
+          <p class="app-tagline">Your performance, their voice. Powered by RVC + RMVPE.</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Server & GPU status badge -->
+        <div class="status-badge" id="serverStatusBadge" title="Checking server connection">
+          <span class="status-dot offline"></span>
+          <span class="status-text" id="serverStatusText">Connecting...</span>
+        </div>
+
+        <!-- Connection settings button -->
+        <button id="settingsBtn" class="btn-icon" title="Server Connection Settings">
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Step 1: Character Selection -->
+      <section class="section-card">
+        <div class="section-header">
+          <span class="step-bubble">1</span>
+          <h2>Choose Your Character</h2>
+        </div>
+        <p class="section-sub">Pick the Truffula Forest friend whose iconic voice you want to speak with:</p>
+
+        <div class="characters-grid">
+          <!-- The Lorax Card -->
+          <div class="char-card active" data-character="lorax" id="card-lorax">
+            <div class="char-badge-status" id="badge-lorax">Checking...</div>
+            <div class="char-avatar-wrapper">
+              <img src="static/images/lorax.jpg" alt="The Lorax" class="char-photo-img" loading="eager" onerror="if(!this.dataset.retry){this.dataset.retry='1';this.src='images/lorax.jpg';}">
+            </div>
+            <h3 class="char-name">The Lorax</h3>
+            <p class="char-role">Guardian of the Forest</p>
+            <p class="char-desc">Husky, warm, charismatic, and legendary voice of nature's defender.</p>
+            <div class="char-pitch-hint" id="hint-lorax">Waiting for voice model</div>
+          </div>
+
+          <!-- Pipsqueak Card -->
+          <div class="char-card" data-character="pipsqueak" id="card-pipsqueak">
+            <div class="char-badge-status" id="badge-pipsqueak">Checking...</div>
+            <div class="char-avatar-wrapper">
+              <img src="static/images/pipsqueak.jpg" alt="Pipsqueak" class="char-photo-img" loading="eager" onerror="if(!this.dataset.retry){this.dataset.retry='1';this.src='images/pipsqueak.jpg';}">
+            </div>
+            <h3 class="char-name">Pipsqueak</h3>
+            <p class="char-role">Bar-ba-loot Bear Cub</p>
+            <p class="char-desc">Adorable, high-pitched, enthusiastic, sweet, and playful cartoon voice.</p>
+            <div class="char-pitch-hint" id="hint-pipsqueak">Waiting for voice model</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Microphone Recording -->
+      <section class="section-card">
+        <div class="section-header">
+          <span class="step-bubble">2</span>
+          <h2>Record Your Voice</h2>
+        </div>
+        <p class="section-sub">Speak in any language. Use the emotion and intonation you want to hear in the converted voice. Your words, pauses and speaking pace come from this recording.</p>
+
+        <!-- Sample Quote Pills -->
+        <div class="phrase-hints-box">
+          <span class="hints-title">💡 Example movie quotes to test (click to practice):</span>
+          <div class="phrase-pills">
+            <button type="button" class="phrase-pill">"I speak for the trees, for the trees have no tongues!"</button>
+            <button type="button" class="phrase-pill">"Dave, stop worrying! Rules were meant to be broken!"</button>
+            <button type="button" class="phrase-pill">"Unless someone like you cares a whole awful lot, nothing is going to get better."</button>
+            <button type="button" class="phrase-pill">"Who are you and what are you doing in my Truffula Valley?"</button>
+          </div>
+        </div>
+
+        <!-- Waveform Visualizer -->
+        <div class="visualizer-container">
+          <canvas id="waveformCanvas" width="800" height="120"></canvas>
+          <div class="recording-timer" id="recordingTimer">00:00</div>
+          <div class="visualizer-hint" id="visualizerHint">Click "Start Recording" and speak clearly</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="recording-controls">
+          <button id="startRecordBtn" class="btn btn-record">
+            <span class="btn-icon-symbol">🎙️</span>
+            <span>Start Recording</span>
+          </button>
+          <button id="stopRecordBtn" class="btn btn-stop" disabled>
+            <span class="btn-icon-symbol">⏹️</span>
+            <span>Stop Recording</span>
+          </button>
+        </div>
+
+        <!-- Original Audio Preview -->
+        <div class="audio-preview-box" id="originalAudioBox" style="display: none;">
+          <div class="preview-header">
+            <span class="preview-title">🎧 Your Recorded Audio:</span>
+            <span class="preview-duration" id="originalDuration">0s</span>
+          </div>
+          <audio id="originalAudioPlayer" controls class="custom-audio-player"></audio>
+        </div>
+      </section>
+
+      <!-- Step 3: Direct RVC conversion -->
+      <section class="section-card" id="convertSection">
+        <div class="section-header">
+          <span class="step-bubble">3</span>
+          <h2>Convert Your Voice with RVC</h2>
+        </div>
+
+        <!-- Speech Tempo Control -->
+        <div class="speed-control-card">
+          <div class="speed-control-header">
+            <span class="speed-title">🎵 Voice pitch:</span>
+            <span class="speed-val-display" id="pitchValDisplay">0 semitones (Original)</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-label">−12 Lower</span>
+            <input type="range" id="pitchSlider" aria-label="Pitch shift in semitones" min="-12" max="12" step="1" value="0">
+            <span class="slider-label">+12 Higher</span>
+            <button type="button" id="resetPitchBtn" class="btn-text-small" title="Keep original pitch">Reset</button>
+          </div>
+          <p class="speed-sub-hint">Keep 0 to follow your original pitch. A shift raises or lowers the voice while keeping the pitch contour and speaking pace.</p>
+        </div>
+
+        <div class="convert-cta-wrapper">
+          <button id="convertBtn" class="btn btn-convert" disabled>
+            <span class="btn-icon-symbol">✨</span>
+            <span>Convert Voice with RVC</span>
+          </button>
+          <p class="convert-hint">RVC changes the voice timbre directly. RMVPE tracks your pitch; your recording supplies the timing and expression.</p>
+        </div>
+
+        <!-- Loading State Overlay -->
+        <div class="loading-state" id="loadingState" style="display: none;">
+          <div class="spinner-forest">
+            <div class="truffula-spinner"></div>
+          </div>
+          <h4 class="loading-title" id="loadingStageTitle">Converting with RVC...</h4>
+          <p class="loading-sub" id="loadingStageSub">Processing your recording with RVC + RMVPE</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+        </div>
+
+        <!-- Result Box -->
+        <div class="result-box" id="resultBox" style="display: none;">
+          <div class="result-banner">
+            <span class="result-celebration">🎉</span>
+            <div>
+              <h3 class="result-title">Voice Converted with RVC!</h3>
+              <p class="result-subtitle" id="resultCharacterNotice">Speaking as The Lorax — Guardian of the Forest</p>
+            </div>
+          </div>
+
+          <!-- Conversion details -->
+          <div class="recognized-box">
+            <span class="recognized-label">🎵 Conversion:</span>
+            <p class="recognized-text" id="conversionDetails">—</p>
+          </div>
+
+          <div class="result-player-wrapper">
+            <audio id="resultAudioPlayer" controls class="custom-audio-player"></audio>
+          </div>
+
+          <div class="result-actions">
+            <a id="downloadAudioBtn" class="btn btn-download" download="cloned_voice.wav">
+              <span class="btn-icon-symbol">💾</span>
+              <span>Download Audio (WAV)</span>
+            </a>
+            <button id="newRecordBtn" class="btn btn-secondary">
+              <span class="btn-icon-symbol">🔄</span>
+              <span>Record New Phrase</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-info">
+        <p>The Lorax AI Voice Studio &bull; Powered by <b>FastAPI</b>, <b>RVC</b> & <b>RMVPE</b></p>
+        <p class="footer-sub">Crafted with care for the Truffula trees and clean acoustic fidelity 🌳</p>
+      </div>
+      <div class="footer-hardware" id="footerHardwareInfo">
+        GPU: Detecting...
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settingsModal" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>⚙️ Server Connection Settings</h3>
+        <button id="closeSettingsBtn" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Configure the API endpoint (local localhost or a remote GPU server like RunPod / Vast.ai):
+        </p>
+
+        <div class="form-group">
+          <label for="apiUrlInput">Backend API URL:</label>
+          <input type="text" id="apiUrlInput" class="form-input" placeholder="http://127.0.0.1:8000">
+          <small class="form-hint">
+            Default for local execution: <code>http://127.0.0.1:8000</code>.
+          </small>
+        </div>
+
+        <div class="modal-quick-links">
+          <button type="button" id="setLocalhostBtn" class="btn-tag">Localhost (127.0.0.1:8000)</button>
+          <button type="button" id="setSameOriginBtn" class="btn-tag">Current Website Origin</button>
+        </div>
+
+        <div class="modal-status-box" id="modalStatusBox">
+          <div class="diag-row">
+            <span>Connection Status:</span>
+            <b id="diagConnStatus">Checking...</b>
+          </div>
+          <div class="diag-row">
+            <span>Hardware Device:</span>
+            <b id="diagGpu">N/A</b>
+          </div>
+          <div class="diag-row">
+            <span>The Lorax Model:</span>
+            <b id="diagLorax">N/A</b>
+          </div>
+          <div class="diag-row">
+            <span>Pipsqueak Model:</span>
+            <b id="diagPipsqueak">N/A</b>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="testConnectionBtn" class="btn btn-secondary">Test Connection</button>
+        <button id="saveSettingsBtn" class="btn btn-save">Save & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="script.js?v=3.1"></script>
+</body>
+
+</html>

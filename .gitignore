@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Temporary and audio cache files
+temp/
+*.tmp
+*.temp
+*.wav
+*.mp3
+*.ogg
+*.webm
+*.m4a
+
+# Model weights and indices (large binary files)
+models/**/*.pth
+models/**/*.index
+assets/**/*.pt
+assets/**/*.bin
+assets/**/*.onnx
+
+# System & IDE files
+vendor/
+*.part
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+
+# Downloaded binaries and runtime files
+bin/
+public_url.txt

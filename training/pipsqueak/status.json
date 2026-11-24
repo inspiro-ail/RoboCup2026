@@ -1,0 +1,9 @@
+{
+  "stage": "training",
+  "updated_at_unix": 1794815138.2079716,
+  "experiment": "pipsqueak_v2_40k",
+  "target_epochs": 100,
+  "batch_size": 1,
+  "segments": 111,
+  "log": "C:\\Users\\ind.ivi.ddd\\OneDrive\\Desktop\\RoboCup2026\\Lorax-AI\\vendor\\RVC\\logs\\pipsqueak_v2_40k\\train.log"
+}
